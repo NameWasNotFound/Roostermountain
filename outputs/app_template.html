@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rooster Mountain 2026 — Results</title>
+<style>
+:root{
+  --bg:#0e1116; --panel:#161b22; --panel2:#1c2230; --line:#2a3140;
+  --txt:#e6edf3; --dim:#8b98a8; --accent:#f0a500; --accent2:#3b82f6;
+  --good:#3fb950; --bad:#f85149;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);font:14px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+header{padding:20px 24px 14px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#171d27,#0e1116)}
+h1{margin:0;font-size:20px;letter-spacing:.3px}
+.sub{color:var(--dim);font-size:12.5px;margin-top:4px}
+.wrap{padding:16px 24px 60px;max-width:1500px;margin:0 auto}
+.controls{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-end;padding:14px 16px;background:var(--panel);border:1px solid var(--line);border-radius:10px;margin:16px 0}
+.ctl{display:flex;flex-direction:column;gap:5px}
+.ctl label{font-size:10.5px;text-transform:uppercase;letter-spacing:.9px;color:var(--dim)}
+select,input[type=text]{background:var(--panel2);color:var(--txt);border:1px solid var(--line);border-radius:7px;padding:7px 10px;font-size:13px;min-width:150px;outline:none}
+select:focus,input:focus{border-color:var(--accent2)}
+.chips{display:flex;gap:6px}
+.chip{padding:6px 12px;border:1px solid var(--line);border-radius:20px;background:var(--panel2);color:var(--dim);cursor:pointer;font-size:12px;user-select:none}
+.chip.on{background:var(--accent);color:#1a1300;border-color:var(--accent);font-weight:600}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:10px 14px;min-width:110px}
+.stat b{display:block;font-size:19px;font-weight:650}
+.stat span{font-size:10.5px;text-transform:uppercase;letter-spacing:.8px;color:var(--dim)}
+.basis{font-size:12px;color:var(--dim);background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:9px 13px;margin-bottom:14px}
+table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+thead th{position:sticky;top:0;background:#1b2230;z-index:2;text-align:right;padding:9px 8px;font-size:10.5px;text-transform:uppercase;letter-spacing:.7px;color:var(--dim);border-bottom:1px solid var(--line);cursor:pointer;white-space:nowrap}
+thead th:hover{color:var(--txt)}
+thead th.l,tbody td.l{text-align:left}
+tbody td{padding:7px 8px;text-align:right;border-bottom:1px solid #1e2532;white-space:nowrap}
+tbody tr{cursor:pointer}
+tbody tr:hover{background:#1a2130}
+tbody tr.open{background:#1d2536}
+.rk{font-weight:700;color:var(--accent)}
+.pct{font-weight:650}
+.nm{font-weight:600}
+.tag{display:inline-block;padding:1px 7px;border-radius:11px;font-size:10.5px;border:1px solid var(--line);background:var(--panel2);color:var(--dim)}
+.maj{color:#ffb454;border-color:#5a4520}
+.min{color:#7fb3ff;border-color:#28405f}
+.dim{color:var(--dim)}
+.rc{color:#c084fc;border-color:#4b3468;background:#241a33}
+.bar{height:4px;border-radius:3px;background:var(--accent);display:block;margin-top:3px}
+.detail td{padding:0!important;background:#11161f}
+.dwrap{padding:12px 16px 16px}
+.dtitle{font-size:11px;text-transform:uppercase;letter-spacing:.9px;color:var(--dim);margin:0 0 8px}
+table.st{width:100%;font-size:12px}
+table.st th{position:static;background:#171e29;padding:5px 7px}
+table.st td{padding:4px 7px;border-bottom:1px solid #1a212c}
+.pen{color:var(--bad);font-weight:600}
+.z{color:#3a4454}
+footer{color:var(--dim);font-size:11.5px;padding:20px 24px;border-top:1px solid var(--line);max-width:1500px;margin:0 auto}
+@media (max-width:760px){ .hideS{display:none} .wrap{padding:12px} }
+</style>
+</head>
+<body>
+<header>
+  <h1>Rooster Mountain 2026 — Handgun</h1>
+  <div class="sub" id="sub"></div>
+</header>
+<div class="wrap">
+  <div class="controls">
+    <div class="ctl"><label>Division</label><select id="fDiv"></select></div>
+    <div class="ctl"><label>Category</label><select id="fCat"></select></div>
+    <div class="ctl"><label>Power factor</label>
+      <div class="chips" id="fFac">
+        <div class="chip on" data-v="">All</div>
+        <div class="chip" data-v="Major">Major</div>
+        <div class="chip" data-v="Minor">Minor</div>
+      </div>
+    </div>
+    <div class="ctl"><label>Search</label><input type="text" id="fQ" placeholder="Name or number…"></div>
+    <div class="ctl"><label>Completion</label><select id="fComp">
+      <option value="all">All competitors</option>
+      <option value="full">Completed all 19 stages</option>
+    </select></div>
+  </div>
+
+  <div class="stats" id="stats"></div>
+  <div class="basis" id="basis"></div>
+
+  <table id="tbl">
+    <thead><tr>
+      <th class="l" data-k="rank">#</th>
+      <th data-k="pct">%</th>
+      <th data-k="match">Match pts</th>
+      <th class="l" data-k="name">Competitor</th>
+      <th class="l hideS" data-k="division">Division</th>
+      <th class="l hideS" data-k="category">Category</th>
+      <th class="hideS" data-k="factor">PF</th>
+      <th class="hideS" data-k="time">Time</th>
+      <th class="hideS" data-k="A">A</th>
+      <th class="hideS" data-k="C">C</th>
+      <th class="hideS" data-k="D">D</th>
+      <th class="hideS" data-k="MI">M</th>
+      <th class="hideS" data-k="NS">NS</th>
+      <th class="hideS" data-k="PE">PE</th>
+      <th class="hideS" data-k="accA">A%</th>
+      <th class="hideS" data-k="sq">Sq</th>
+    </tr></thead>
+    <tbody id="tb"></tbody>
+  </table>
+</div>
+<footer id="foot"></footer>
+
+<script>
+const DATA = __DATA__;
+const S = DATA.stages, MAXP = DATA.maxpts;
+
+/* ---- category tags: "Lady Senior" counts as both Lady and Senior ---- */
+const CATS = ["Lady","Junior","S. Junior","Senior","S. Senior","Grand Senior"];
+function tags(cat){
+  if(!cat || cat==="None") return [];
+  const t=[];
+  if(cat.includes("Lady")) t.push("Lady");
+  if(/S\. Junior/.test(cat)) t.push("S. Junior");
+  else if(/Junior/.test(cat)) t.push("Junior");
+  if(/S\. Senior/.test(cat)) t.push("S. Senior");
+  else if(/Grand Senior/.test(cat)) t.push("Grand Senior");
+  else if(/Senior/.test(cat)) t.push("Senior");
+  return t;
+}
+DATA.competitors.forEach(c=>c.tags=tags(c.category));
+
+/* ---- populate filters ---- */
+const fDiv=document.getElementById('fDiv'), fCat=document.getElementById('fCat');
+fDiv.innerHTML = '<option value="ALL">Combined (all divisions)</option>' +
+  DATA.divisions.map(d=>`<option value="${d}">${d}</option>`).join('');
+const catCounts={};
+DATA.competitors.forEach(c=>c.tags.forEach(t=>catCounts[t]=(catCounts[t]||0)+1));
+fCat.innerHTML = '<option value="">All categories</option><option value="__none">No category</option>' +
+  CATS.filter(t=>catCounts[t]).map(t=>`<option value="${t}">${t} (${catCounts[t]})</option>`).join('');
+
+const RECLASSED = DATA.competitors.filter(c=>c.reclassed).length;
+let sortK='rank', sortDir=1, factor='', openRow=null;
+
+document.getElementById('sub').textContent =
+  `${DATA.competitors.length} competitors · ${S.length} stages · ${DATA.divisions.length} divisions · results printed ${DATA.printed}`;
+
+function state(){
+  return {div:fDiv.value, cat:fCat.value, q:document.getElementById('fQ').value.trim().toLowerCase(),
+          comp:document.getElementById('fComp').value};
+}
+
+function view(){
+  const st=state();
+  let rows = DATA.competitors.slice();
+  if(st.div!=='ALL') rows = rows.filter(c=>c.division===st.div);
+  if(st.cat==='__none') rows = rows.filter(c=>c.tags.length===0);
+  else if(st.cat) rows = rows.filter(c=>c.tags.includes(st.cat));
+  if(factor) rows = rows.filter(c=>c.factor===factor);
+  if(st.comp==='full') rows = rows.filter(c=>c.stagesShot===S.length);
+  if(st.q) rows = rows.filter(c=>c.name.toLowerCase().includes(st.q)||String(c.no).includes(st.q));
+  const base = st.div==='ALL' ? 'overall' : 'div';
+  rows.forEach(c=>{ c._m=c[base].match_pts; c._sp=c[base].stage_pts; });
+  // re-rank + re-percent within the filtered list
+  rows.sort((a,b)=>b._m-a._m);
+  const top = rows.length? rows[0]._m : 1;
+  rows.forEach((c,i)=>{ c._rk=i+1; c._pct= top? c._m/top*100 : 0; });
+  return {rows, base, st};
+}
+
+function cmp(a,b,k){
+  switch(k){
+    case 'rank': return a._rk-b._rk;
+    case 'pct': case 'match': return b._m-a._m;
+    case 'name': return a.name.localeCompare(b.name);
+    case 'division': return a.division.localeCompare(b.division)||a._rk-b._rk;
+    case 'category': return (a.category||'').localeCompare(b.category||'')||a._rk-b._rk;
+    case 'factor': return a.factor.localeCompare(b.factor)||a._rk-b._rk;
+    case 'sq': return (+a.squad)-(+b.squad)||a._rk-b._rk;
+    case 'time': return a.time-b.time;
+    case 'accA': return b.accA-a.accA;
+    default: return b[k]-a[k];
+  }
+}
+
+function num(n,d=2){return n.toLocaleString(undefined,{minimumFractionDigits:d,maximumFractionDigits:d});}
+
+function render(){
+  const {rows,base,st}=view();
+  const sorted=rows.slice().sort((a,b)=>sortDir*cmp(a,b,sortK));
+
+  /* stats */
+  const shot=rows.filter(r=>r.stagesShot===S.length).length;
+  const tot=rows.reduce((o,r)=>{['A','C','D','MI','NS','PE'].forEach(k=>o[k]+=r[k]);o.t+=r.time;return o;},{A:0,C:0,D:0,MI:0,NS:0,PE:0,t:0});
+  const hits=tot.A+tot.C+tot.D;
+  document.getElementById('stats').innerHTML=[
+    ['Shooters',rows.length],['Full match',shot],
+    ['A hits',hits?((tot.A/hits*100).toFixed(1)+'%'):'—'],
+    ['Misses',tot.MI],['No-shoots',tot.NS],['Procedurals',tot.PE],
+    ['Total time',rows.length?num(tot.t,0)+'s':'—'],
+    ['Winner',sorted.length?(rows[0].name.split(',')[0]):'—']
+  ].map(([s,b])=>`<div class="stat"><b>${b}</b><span>${s}</span></div>`).join('');
+
+  const divLabel = st.div==='ALL' ? 'all divisions combined' : st.div;
+  document.getElementById('basis').innerHTML =
+    `<b>Scoring basis:</b> stage points = (your hit factor ÷ best hit factor in <b>${divLabel}</b>) × stage max points, summed over ${S.length} stages. ` +
+    (st.cat && st.cat!=='__none' ? `Category <b>${st.cat}</b> is ranked as a subset — percentages are relative to the top ${st.cat} shooter shown.` :
+     `Percentages are relative to the top shooter shown.`) +
+    `<br><b>Adjustment:</b> Optics and Production Optics are Minor-only, so the ${RECLASSED} shooters entered as Major there were rescored at Minor (C=3, D=1) and their hit factors recomputed. They carry a <span class="tag rc">rescored</span> badge.`;
+
+  const tb=document.getElementById('tb');
+  tb.innerHTML = sorted.map(c=>{
+    const inc = (c.stagesShot<S.length ? `<span class="tag" style="color:var(--bad);border-color:#5a2626" title="Only ${c.stagesShot} of ${S.length} stages scored">${c.stagesShot}/${S.length}</span> ` : '')
+      + (c.reclassed ? `<span class="tag rc" title="Scored Major in the original report; rescored as Minor because ${c.division} is a Minor-only division">rescored</span> ` : '');
+    return `<tr data-no="${c.no}">
+      <td class="l rk">${c._rk}</td>
+      <td class="pct">${c._pct.toFixed(2)}<span class="dim">%</span><span class="bar" style="width:${Math.max(2,c._pct)}%"></span></td>
+      <td>${num(c._m)}</td>
+      <td class="l nm">${inc}${c.name} <span class="dim">#${c.no}</span></td>
+      <td class="l hideS dim">${c.division}</td>
+      <td class="l hideS">${c.category==='None'?'<span class="z">—</span>':`<span class="tag">${c.category}</span>`}</td>
+      <td class="hideS"><span class="tag ${c.factor==='Major'?'maj':'min'}">${c.factor==='Major'?'MAJ':'MIN'}</span></td>
+      <td class="hideS">${num(c.time,2)}</td>
+      <td class="hideS">${c.A}</td><td class="hideS">${c.C}</td><td class="hideS">${c.D}</td>
+      <td class="hideS ${c.MI?'pen':'z'}">${c.MI}</td>
+      <td class="hideS ${c.NS?'pen':'z'}">${c.NS}</td>
+      <td class="hideS ${c.PE?'pen':'z'}">${c.PE}</td>
+      <td class="hideS">${c.accA}%</td>
+      <td class="hideS dim">${c.squad}</td>
+    </tr>`;
+  }).join('') || `<tr><td colspan="16" style="text-align:center;padding:40px" class="dim">No competitors match these filters.</td></tr>`;
+
+  tb.querySelectorAll('tr[data-no]').forEach(tr=>tr.onclick=()=>toggle(tr,base,st.div));
+  document.getElementById('foot').textContent =
+    `Rooster Mountain 2026 · ${DATA.competitors.length} competitors · scores parsed from the official ESS verification report (printed ${DATA.printed}). Click any row for a stage-by-stage breakdown. Click column headers to sort.`;
+}
+
+function toggle(tr, base, divKey){
+  const nxt=tr.nextElementSibling;
+  document.querySelectorAll('tr.detail').forEach(r=>r.remove());
+  document.querySelectorAll('tr.open').forEach(r=>r.classList.remove('open'));
+  if(nxt && nxt.classList.contains('detail')) return;
+  tr.classList.add('open');
+  const c=DATA.competitors.find(x=>x.no==tr.dataset.no);
+  const best=DATA.stageBest[divKey];
+  const d=document.createElement('tr');
+  d.className='detail';
+  const body=S.map(s=>{
+    const hf=c.hf[s], t=c.stimes[s], sp=c._sp[s];
+    if(hf===undefined) return `<tr><td>${s}</td><td colspan="6" class="dim">did not shoot</td><td class="dim">0.00</td><td class="dim">0%</td></tr>`;
+    const pctS = best[s]? (hf/best[s]*100):0;
+    return `<tr>
+      <td>${s}</td><td>${MAXP[s]}</td><td>${t.toFixed(2)}s</td>
+      <td>${hf.toFixed(4)}</td><td class="dim">${best[s].toFixed(4)}</td>
+      <td>${num(sp)}</td>
+      <td>${pctS.toFixed(1)}%</td>
+      <td style="width:30%"><span class="bar" style="width:${pctS}%"></span></td>
+    </tr>`;
+  }).join('');
+  d.innerHTML=`<td colspan="16"><div class="dwrap">
+    <p class="dtitle">${c.name} · #${c.no} · ${c.division} ${c.factor}${c.category!=='None'?' · '+c.category:''} · stage breakdown vs. ${divKey==='ALL'?'combined':divKey} stage winners</p>
+    <table class="st"><thead><tr>
+      <th style="text-align:left">Stage</th><th style="text-align:right">Max</th><th style="text-align:right">Time</th>
+      <th style="text-align:right">Hit factor</th><th style="text-align:right">Best HF</th>
+      <th style="text-align:right">Stage pts</th><th style="text-align:right">Stage %</th><th></th>
+    </tr></thead><tbody>${body}</tbody></table></div></td>`;
+  tr.after(d);
+}
+
+document.querySelectorAll('#tbl thead th').forEach(th=>th.onclick=()=>{
+  const k=th.dataset.k;
+  if(sortK===k) sortDir*=-1; else {sortK=k; sortDir=1;}
+  render();
+});
+document.getElementById('fFac').onclick=e=>{
+  const c=e.target.closest('.chip'); if(!c) return;
+  document.querySelectorAll('#fFac .chip').forEach(x=>x.classList.remove('on'));
+  c.classList.add('on'); factor=c.dataset.v; render();
+};
+['fDiv','fCat','fQ','fComp'].forEach(id=>{
+  const el=document.getElementById(id);
+  el.addEventListener(id==='fQ'?'input':'change',()=>{sortK='rank';sortDir=1;render();});
+});
+render();
+</script>
+</body>
+</html>
